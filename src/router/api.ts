@@ -1,5 +1,7 @@
 import express from 'express';
 import { Express } from 'express';
+import { get } from 'http';
+import { getUserById } from '../controller/api.controller';
 const router = express.Router();
 const webRouter =(app:Express) => {
   router.get("/", (req, res) => {
@@ -10,4 +12,6 @@ router.get("/hoidanit", (req, res) => {
 });
     app.use("/", router);
 };
+
+router.get("/user/:id",getUserById);
 export default webRouter;
