@@ -7,4 +7,17 @@ const getUserByIdApi = async (id: number) => {
   });
   return user;
 }
-export { getUserByIdApi };
+
+
+const getAllUsersApi = async () => {
+  const users = await prisma.user.findMany();
+  return users;
+}
+
+const createUserApi = async (name: string, email: string,address:string) => {
+  const newUser = await prisma.user.create({
+    data: { name, email, address },
+  });
+  return newUser;
+}
+export { getUserByIdApi, getAllUsersApi, createUserApi };
