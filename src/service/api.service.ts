@@ -20,4 +20,19 @@ const createUserApi = async (name: string, email: string,address:string) => {
   });
   return newUser;
 }
-export { getUserByIdApi, getAllUsersApi, createUserApi };
+
+const DeleteUserApi = async (id: number) => {
+  const deletedUser = await prisma.user.delete({
+    where: { id },
+  });
+  return deletedUser;
+}
+
+const updateUserApi = async (id: number, name: string, email: string,address:string) => {
+  const updatedUser = await prisma.user.update({
+    where: { id },
+    data: { name, email, address },
+  });
+  return updatedUser;
+}
+export { getUserByIdApi, getAllUsersApi, createUserApi, DeleteUserApi, updateUserApi };
