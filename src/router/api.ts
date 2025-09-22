@@ -1,6 +1,6 @@
 import express from 'express';
 import { Express } from 'express';
-import { getAllUserApi, getUserById, postCreateUserApi, DeleteUserapi, putUpdateUserApi } from '../controller/api.controller';
+import { getAllUserApi, getUserById, postCreateUserApi, DeleteUserapi, putUpdateUserApi,loginApi } from '../controller/api.controller';
 const router = express.Router();
 const webRouter =(app:Express) => {
   router.get("/", (req, res) => {
@@ -14,6 +14,7 @@ router.get("/users", getAllUserApi);
 router.post("/users", postCreateUserApi);
 router.delete("/users/:id", DeleteUserapi);
 router.put("/users/:id", putUpdateUserApi);
+router.post("/login",loginApi);
     app.use("/api", router);
 
 };
