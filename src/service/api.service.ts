@@ -65,9 +65,9 @@ const hashPassword = async (plainText: string) => {
   if (!isMatch) {
     throw new Error('Invalid password');
   }
-
+  const secretKey = process.env.SECRET_KEY;
   const payload = { id: user.id, name: user.name, email: user.email };
-  const accessToken = jwt.sign(payload, "HHT_SECRET", { expiresIn: '1h' });
+  const accessToken = jwt.sign(payload, secretKey, { expiresIn: '1h' });
   return accessToken;
 };
 
