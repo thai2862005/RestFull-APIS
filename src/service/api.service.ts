@@ -18,10 +18,10 @@ const getAllUsersApi = async () => {
   return users;
 }
 
-const createUserApi = async (name: string, email: string,address:string,password:string) => {
+const createUserApi = async (name: string, email: string,address:string,password:string,roleId:number) => {
   const hashPassworded = await hashPassword(password);
   const newUser = await prisma.user.create({
-    data: { name, email, address, password: hashPassworded },
+    data: { name, email, address, password: hashPassworded, roleId },
   });
   return newUser;
 }
@@ -33,11 +33,11 @@ const DeleteUserApi = async (id: number) => {
   return deletedUser;
 }
 
-const updateUserApi = async (id: number, name: string, email: string, address: string, password: string) => {
+const updateUserApi = async (id: number, name: string, email: string, address: string, password: string, roleId: number) => {
   const hashedPassword = await hashPassword(password); // hash lại
   const updatedUser = await prisma.user.update({
     where: { id },
-    data: { name, email, address, password: hashedPassword },
+    data: { name, email, address, password: hashedPassword, roleId },
   });
   return updatedUser;
 };

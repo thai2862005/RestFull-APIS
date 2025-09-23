@@ -18,4 +18,15 @@ model User {
   email   String?  @unique @db.VarChar(255)
   address  String?   @db.VarChar(255)
   password String?   @db.VarChar(255)
+  roleId   Int?
+  role     role?    @relation(fields: [roleId], references: [id])
+}
+
+model role {
+  id          Int     @id @default(autoincrement())
+  name        String? @unique @db.VarChar(255)
+  description String? @db.VarChar(255)
+  users       User[]
+
+  @@map("roles") // Maps the model to the "roles" table in the database
 }

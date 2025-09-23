@@ -12,22 +12,24 @@ const getUserById = async (req: Request, res: Response) => {
 };
 
 const getAllUserApi = async (req: Request, res: Response) => {
-  const users = await getAllUsersApi();
-  if(users && users.length > 0){
+  // const users = await getAllUsersApi();
+  const users = (req as any).user;
+  console.log("check users", users);
+  try {
     res.status(200).json({ data: users });
-  } else {
-    res.status(404).json({ message: 'No users found' });
+  } catch (error) {
+    res.status(404).json({ message: 'no users found', data: null });
   }
 
 };
 
 const postCreateUserApi = async (req: Request, res: Response) => {
 
-  const{email,name,address,password} = req.body;
-  if(!email || !name || !address || !password){
-    return res.status(400).json({message: 'Missing required fields: name, email, address and password'});
+  const{email,name,address,password,roleId} = req.body;
+  if(!email || !name || !address || !password || !roleId){
+    return res.status(400).json({message: 'Missing required fields: name, email, address, password and roleId'});
   }
-  const newUser = await createUserApi(name, email,address,password);
+  const newUser = await createUserApi(name, email,address,password,roleId);
   res.status(201).json({ data: newUser, message: 'User created successfully' });
 }
 const DeleteUserapi = async (req: Request, res: Response) => {
@@ -41,12 +43,12 @@ const DeleteUserapi = async (req: Request, res: Response) => {
 }
 
 const putUpdateUserApi = async (req: Request, res: Response) => {
-  const {name, email,address,password} = req.body;
+  const {name, email,address,password,roleId} = req.body;
   const {id} = req.params;
-  if(!name || !email || !address || !password){
-    return res.status(400).json({message: 'Missing required fields: name, email, address and password'});
+  if(!name || !email || !address || !password || !roleId){
+    return res.status(400).json({message: 'Missing required fields: name, email, address, password and roleId'});
   }
-  const updatedUser = await updateUserApi(+id, name, email,address,password);
+  const updatedUser = await updateUserApi(+id, name, email,address,password,roleId);
   try{
     res.status(200).json({data: updatedUser, message: 'User updated successfully'});
   }catch(error){
