@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express'
 import webRouter from './router/api'
 import cors from 'cors';
+
 const app = express()
-const port = 3000
+const port = 8080
+
 app.use(cors());
-// Middleware để parse bodyx
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

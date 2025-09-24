@@ -17,7 +17,7 @@ router.delete("/users/:id", DeleteUserapi);
 router.put("/users/:id", putUpdateUserApi);
 router.get("/account", fetchAccountApi);  
 router.post("/login",loginApi);
-    app.use("/api",  router);
+    app.use("/api", router);
 
 };
 

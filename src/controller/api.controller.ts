@@ -10,11 +10,11 @@ const getUserById = async (req: Request, res: Response) => {
     res.status(404).json({ message: 'User not found' });
   }
 };
-  const fetchAccountApi = async (req: Request, res: Response) => {
+  const   fetchAccountApi = async (req: Request, res: Response) => {
    const user = (req as any).user;
    res.status(200).json({ data: user });
   }
-const getAllUserApi = async (req: Request, res: Response) => {
+const getAllUserApi = async (req: Request, res: Response  ) => {
   // const users = await getAllUsersApi();
   const users = (req as any).user;
   console.log("check users", users);
@@ -60,9 +60,9 @@ const putUpdateUserApi = async (req: Request, res: Response) => {
 }
 //login api
 const loginApi = async (req: Request, res: Response) => {
-  const {email,password} = req.body;
+  const {username,password} = req.body;
   try {
-    const accessToken = await handleLogin(email,password);
+    const accessToken = await handleLogin(username,password);
     res.status(200).json({data: {accessToken}, message: 'Login successful'});
   } catch (error) {
     res.status(401).json({message: error.message,data:null});

@@ -56,7 +56,7 @@ const hashPassword = async (plainText: string) => {
   const handleLogin = async (username: string, password: string) => {
   const user = await prisma.user.findUnique({
     where: { username },
-    include: { role: true }, // lấy luôn role
+    include: { role: true }, 
   });
 
   if (!user) {
