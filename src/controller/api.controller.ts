@@ -10,7 +10,10 @@ const getUserById = async (req: Request, res: Response) => {
     res.status(404).json({ message: 'User not found' });
   }
 };
-
+  const fetchAccountApi = async (req: Request, res: Response) => {
+   const user = (req as any).user;
+   res.status(200).json({ data: user });
+  }
 const getAllUserApi = async (req: Request, res: Response) => {
   // const users = await getAllUsersApi();
   const users = (req as any).user;
@@ -25,11 +28,11 @@ const getAllUserApi = async (req: Request, res: Response) => {
 
 const postCreateUserApi = async (req: Request, res: Response) => {
 
-  const{email,name,address,password,roleId} = req.body;
-  if(!email || !name || !address || !password || !roleId){
-    return res.status(400).json({message: 'Missing required fields: name, email, address, password and roleId'});
+  const{username,fullname,address,password,roleId} = req.body;
+  if(!username || !fullname || !address || !password || !roleId){
+    return res.status(400).json({message: 'Missing required fields: fullname, username, address, password and roleId'});
   }
-  const newUser = await createUserApi(name, email,address,password,roleId);
+  const newUser = await createUserApi(fullname, username, address, password, roleId);
   res.status(201).json({ data: newUser, message: 'User created successfully' });
 }
 const DeleteUserapi = async (req: Request, res: Response) => {
@@ -43,12 +46,12 @@ const DeleteUserapi = async (req: Request, res: Response) => {
 }
 
 const putUpdateUserApi = async (req: Request, res: Response) => {
-  const {name, email,address,password,roleId} = req.body;
+  const {fullname, username, address, password, roleId} = req.body;
   const {id} = req.params;
-  if(!name || !email || !address || !password || !roleId){
-    return res.status(400).json({message: 'Missing required fields: name, email, address, password and roleId'});
+  if(!fullname || !username || !address || !password || !roleId){
+    return res.status(400).json({message: 'Missing required fields: fullname, username, address, password and roleId'});
   }
-  const updatedUser = await updateUserApi(+id, name, email,address,password,roleId);
+  const updatedUser = await updateUserApi(+id, fullname, username, address, password, roleId);
   try{
     res.status(200).json({data: updatedUser, message: 'User updated successfully'});
   }catch(error){
@@ -66,4 +69,4 @@ const loginApi = async (req: Request, res: Response) => {
   }
 }
 
-export { getUserById, getAllUserApi, postCreateUserApi, DeleteUserapi, putUpdateUserApi, loginApi };
+export { getUserById, getAllUserApi, postCreateUserApi, DeleteUserapi, putUpdateUserApi, loginApi ,fetchAccountApi};

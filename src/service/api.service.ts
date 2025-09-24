@@ -18,10 +18,10 @@ const getAllUsersApi = async () => {
   return users;
 }
 
-const createUserApi = async (name: string, email: string,address:string,password:string,roleId:number) => {
+const createUserApi = async (fullname:string,username:string,address:string,password:string,roleId:number) => {
   const hashPassworded = await hashPassword(password);
   const newUser = await prisma.user.create({
-    data: { name, email, address, password: hashPassworded, roleId },
+    data: { fullname, username, address, password: hashPassworded, roleId },
   });
   return newUser;
 }
@@ -33,11 +33,11 @@ const DeleteUserApi = async (id: number) => {
   return deletedUser;
 }
 
-const updateUserApi = async (id: number, name: string, email: string, address: string, password: string, roleId: number) => {
+const updateUserApi = async (id: number, fullname: string, username: string, address: string, password: string, roleId: number) => {
   const hashedPassword = await hashPassword(password); // hash lại
   const updatedUser = await prisma.user.update({
     where: { id },
-    data: { name, email, address, password: hashedPassword, roleId },
+    data: { fullname, username, address, password: hashedPassword, roleId },
   });
   return updatedUser;
 };
@@ -53,22 +53,33 @@ const hashPassword = async (plainText: string) => {
     return await bcrypt.compare(plainText, hashPassword);
   }
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async (username: string, password: string) => {
   const user = await prisma.user.findUnique({
-    where: { email },
+    where: { username },
+    include: { role: true }, // lấy luôn role
   });
+
   if (!user) {
-    throw new Error(`Email: ${email} not found`);
+    throw new Error(`Username ${username} not found`);
   }
 
-  const isMatch = await comparePassword(password, user.password);
+  const isMatch = await comparePassword(password, user.password!);
   if (!isMatch) {
-    throw new Error('Invalid password');
+    throw new Error("Invalid password");
   }
-  const secretKey = process.env.SECRET_KEY;
-  const payload = { id: user.id, name: user.name, email: user.email };
-  const accessToken = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+
+  const secretKey :any = process.env.SECRET_KEY;
+  const expiresIn :any = process.env.EXPIRES_IN;
+
+  const payload = {
+    id: user.id,
+    fullname: user.fullname,
+    username: user.username,
+    roleId: user.roleId,
+    role: user.role
+  }
+
+  const accessToken = jwt.sign(payload, secretKey, { expiresIn });
   return accessToken;
 };
-
 export { getUserByIdApi, getAllUsersApi, createUserApi, DeleteUserApi, updateUserApi, hashPassword, comparePassword, handleLogin };
