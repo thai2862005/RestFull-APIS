@@ -6,7 +6,7 @@ const CheckJwt = (req: Request, res: Response, next: NextFunction) => {
   const path = req.path;
   const Whitelist = ['/login'];
   const isWhiteList = Whitelist.some((item) => path.startsWith(item));
-
+  console.log('check path', path, isWhiteList);
   if (isWhiteList) {
     return next();
   }
