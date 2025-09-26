@@ -79,7 +79,7 @@
       role: user.role
     }
 
-    const accessToken = jwt.sign(payload, secretKey, { expiresIn });
-    return accessToken;
+    const access_token = jwt.sign(payload, secretKey, { expiresIn });
+    return access_token;
   };
   export { getUserByIdApi, getAllUsersApi, createUserApi, DeleteUserApi, updateUserApi, hashPassword, comparePassword, handleLogin };

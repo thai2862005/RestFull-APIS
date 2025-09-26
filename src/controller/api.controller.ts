@@ -62,8 +62,8 @@ const putUpdateUserApi = async (req: Request, res: Response) => {
 const loginApi = async (req: Request, res: Response) => {
   const {username,password} = req.body;
   try {
-    const accessToken = await handleLogin(username,password);
-    res.status(200).json({data: {accessToken}, message: 'Login successful'});
+    const access_token = await handleLogin(username,password);
+    res.status(200).json({data: {access_token}, message: 'Login successful'});
   } catch (error) {
     res.status(401).json({message: error.message,data:null});
   }
